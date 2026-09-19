@@ -7,7 +7,7 @@ pygame.mixer.init()
 
 fire_sound = pygame.mixer.Sound('hit.ogg')
 sonido_fondo = pygame.mixer.Sound('fallen_down.ogg')
-musica_juego = pygame.mixer.Sound('hope_and_dreams.ogg')
+musica_juego = pygame.mixer.Sound('hope_and_dream.ogg')
 
 sonido_fondo.set_volume(0.2)
 musica_juego.set_volume(0.2)
