@@ -1,0 +1,52 @@
+import pygame
+import sys
+
+# Inicializar Pygame
+pygame.init()
+pantalla = pygame.display.set_caption("Rotación de Pelota en Pygame")
+pantalla = pygame.display.set_mode((600, 600))
+reloj = pygame.time.Clock()
+
+# 1. Cargar la imagen original y mantener una copia intacta
+# Asegúrate de usar .convert_alpha() para preservar la transparencia del PNG
+imagen_original = pygame.image.load("tenis_ball.png").convert_alpha()
+
+# Posición del centro donde quieres que gire la pelota
+centro_x, centro_y = 300, 300
+
+# Variables de rotación y velocidad
+angulo = 0
+velocidad_rotacion = 2  # Grados por fotograma (aumenta o disminuye para cambiar la velocidad)
+
+ejecutando = True
+while ejecutando:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            ejecutando = False
+            
+        # Opcional: Modificar la velocidad con las teclas (Flecha Arriba / Flecha Abajo)
+        if evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_UP:
+                velocidad_rotacion += 1
+            elif evento.key == pygame.K_DOWN:
+                velocidad_rotacion -= 1
+
+    # 2. Actualizar el ángulo
+    angulo = (angulo + velocidad_rotacion) % 360
+
+    # 3. Rotar la imagen ORIGINAL
+    imagen_rotada = pygame.transform.rotate(imagen_original, angulo)
+
+    # 4. Ajustar el rectángulo para que gire SOBRE SU PROPIO EJE
+    rect_rotado = imagen_rotada.get_rect(center=(centro_x, centro_y))
+
+    # Renderizar
+    pantalla.fill((30, 30, 30))  # Fondo oscuro
+    pantalla.blit(imagen_rotada, rect_rotado.topleft)
+    pygame.display.flip()
+
+    # Controlar FPS
+    reloj.tick(60)
+
+pygame.quit()
+sys.exit()
